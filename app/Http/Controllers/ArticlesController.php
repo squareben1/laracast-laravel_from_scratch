@@ -59,7 +59,9 @@ class ArticlesController extends Controller
         $article->update($this->validateArticle());
         // update() and create() methods assign attributes and save to DB in one go
 
-        return redirect('/articles/' . $article->id);
+        return redirect($article->path());
+        // note the above where we call Article method as opposed to:
+        // return redirect(route('articles.show', $article));
     }
 
     public function validateArticle()
