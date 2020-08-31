@@ -14,10 +14,9 @@ class ArticlesController extends Controller
         return view('articles.index', ['articles' => $articles]);
     }
 
-    public function show($id)
+    public function show(Article $article)
     {
-        $article = Article::find($id);
-
+        // the $article in refactor above has to match the {wildcard} in routes
         return view('articles.show', ['article' => $article]);
     }
 
@@ -28,35 +27,47 @@ class ArticlesController extends Controller
 
     public function store()
     {
+        Article::create($this->validateArticle()); // TASTY refactor there - replaced array with var
+        // tutorial recommends inlining all of this...didnt make sense from readability standpoint
+        // until extracted to it's own method
+
+        return redirect('/articles');
+    }
+
+    public function edit(Article $article)
+    {
+        return view('articles.edit', ['article' => $article]);
+    }
+
+    public function update(Article $article)
+    {
+        /* 
         request()->validate([
             'title' => 'required',
             'excerpt' => 'required',
             'body' => 'required',
         ]);
 
-        $article = new Article();
         $article->title = request('title');
         $article->excerpt = request('excerpt');
         $article->body = request('body');
         $article->save();
 
-        return redirect('/articles');
-    }
+        REFACTORED TO:
+        */
 
-    public function edit($id)
-    {
-        $article = Article::find($id);
-        return view('articles.edit', ['article' => $article]);
-    }
-
-    public function update($id)
-    {
-        $article = Article::find($id);
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
+        $article->update($this->validateArticle());
+        // update() and create() methods assign attributes and save to DB in one go
 
         return redirect('/articles/' . $article->id);
+    }
+
+    public function validateArticle()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required',
+        ]);
     }
 }
