@@ -7,9 +7,9 @@
 		@foreach ($articles as $article)
 			
 				<div class="title">
-					<h2><a href="/articles/{{$article->id}}">{{$article->title}}</a></h2>
+					<h2><a href="{{route('articles.show', $article)}}">{{$article->title}}</a></h2>
 				<p><img src="/images/banner.jpg" alt="" class="image image-full" /> </p>
-				<h3><p><a href="/articles/{{$article->id}}">{{$article->excerpt}}</a></p></h3>
+				<h3><p><a href="{{route('articles.show', $article)}}">{{$article->excerpt}}</a></p></h3>
 						
 
 			</div>
