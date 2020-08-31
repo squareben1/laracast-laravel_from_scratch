@@ -9,6 +9,7 @@
 			<p><img src="/images/banner.jpg" alt="" class="image image-full" /> </p>
 			{{$article->body}}
 		</div>
-	</div>
+  </div>
+</div>
 </div>
 @endsection
